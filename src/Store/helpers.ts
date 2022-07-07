@@ -16,3 +16,38 @@ export const lineParity = (arr: number[]) => {
   }
   return result;
 };
+
+export const lineParityTwo = (arr: number[]) => {
+  const objRes = arr.reduce((acc: { [key: number]: number } , cur: number) => {
+    if (acc.hasOwnProperty(cur)) {
+      acc[cur] = acc[cur] + 1;
+    } else {
+      acc[cur] = 1;
+    }
+    return acc;
+  }, {});
+  let result = 0;
+  for (const value of Object.values(objRes)) {
+    if (value >= 2) {
+      result = result + (value * (value - 1)) / 2;
+      // Количество пар = ((Общее число элементов) * ( Общее число элементов — 1)) / 2
+      // Сумма чисел от 1 до N = (N(N+1))/2, где N - наибольшее число ряда.
+    }
+  }
+  return result;
+};
+
+export const lineParityThreeSorted = (arr: number[]) => {
+  let result = 0;
+  let index = 0;
+  for (let i = 1; i <= arr.length; ++i) {
+    if (arr[i - 1] !== arr[i]) {
+      const gap = i - index;
+      if (gap >= 2) {
+        result = result + (gap * (gap - 1)) / 2;
+      }
+      index = i;
+    }
+  }
+  return result;
+};

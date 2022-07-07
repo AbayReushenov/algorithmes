@@ -1,5 +1,5 @@
 import { makeObservable, observable, computed, action } from 'mobx';
-import { data, lineParity, sortedData } from './helpers';
+import { data, lineParity, lineParityThreeSorted, lineParityTwo, sortedData } from './helpers';
 
 export class Store {
   lenArray = 2;
@@ -23,18 +23,68 @@ export class Store {
     return this.min < this.max;
   }
   get targetArray() {
-    console.log(this.checkInput, this.min, this.max)
     return this.checkInput ? data(this.lenArray)(this.min, this.max) : [];
   }
-  get sortedArray(){
-    return this.checkInput ? sortedData(this.targetArray): [];
+  get sortedArray() {
+    const start = performance.now();
+    const parities = this.checkInput ? sortedData(this.targetArray) : [];
+    const end = performance.now()
+    return { parities, time: end - start };
   }
-  get resultLine(){
+  get resultLine() {
     const start = performance.now();
     const parities = lineParity(this.targetArray);
-    const end = performance.now()
-    return {parities, time: end - start}
+    const end = performance.now();
+    return { parities, time: end - start };
   }
+  get resultLineTwo() {
+    const start = performance.now();
+    const parities = lineParityTwo(this.targetArray);
+    const end = performance.now();
+    return { parities, time: end - start };
+  }
+
+  get resultLineSorted() {
+    const start = performance.now();
+    const parities = lineParity(this.sortedArray.parities);
+    const end = performance.now();
+    return { parities, time: end - start };
+  }
+  get resultLineTwoSorted() {
+    const start = performance.now();
+    const parities = lineParityTwo(this.sortedArray.parities);
+    const end = performance.now();
+    return { parities, time: end - start };
+  }
+
+  get resultLineThreeSorted() {
+    const start = performance.now();
+    const parities = lineParityThreeSorted(this.sortedArray.parities);
+    const end = performance.now();
+    return { parities, time: end - start };
+  }
+
+  get efficiencyRatioTargetArray() {
+    return Math.trunc(this.resultLine.time / this.resultLineTwo.time);
+  }
+
+  get efficiencyRatioSortedOneByTwo() {
+    return Math.trunc(
+      this.resultLineSorted.time / this.resultLineTwoSorted.time
+    );
+  }
+  get efficiencyRatioSortedOneByThree() {
+    return Math.trunc(
+      this.resultLineSorted.time / this.resultLineThreeSorted.time
+    );
+  }
+
+  get efficiencyRatioSortedTwoByThree() {
+    return Math.trunc(
+      this.resultLineTwoSorted.time / this.resultLineThreeSorted.time
+    );
+  }
+
   setLenArray(num: number) {
     if (num <= 100000 && num > 2) {
       this.lenArray = num;

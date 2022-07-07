@@ -53,7 +53,6 @@ export const Application: React.FunctionComponent<Props> = observer(
         }
       };
     const submitData = () => {
-      console.log('object', stateApp);
       state.setLenArray(stateApp.lenArray);
       state.setMin(stateApp.min);
       state.setMax(stateApp.max);
@@ -73,7 +72,7 @@ export const Application: React.FunctionComponent<Props> = observer(
               <Col md={4}>
                 <InputForm
                   title={'Количество элементов массива'}
-                  key={'lenArray'}
+                  keyI={'lenArray'}
                   value={stateApp.lenArray}
                   min={2}
                   onChange={handleChange('lenArray')}
@@ -81,16 +80,16 @@ export const Application: React.FunctionComponent<Props> = observer(
               </Col>
               <Col md={4}>
                 <InputForm
-                  title={'Минимальное значение'}
-                  key={'min'}
+                  title={'Минимальное значение элемента'}
+                  keyI={'min'}
                   value={stateApp.min}
                   onChange={handleChange('min')}
                 />
               </Col>
               <Col md={4}>
                 <InputForm
-                  title={'Максимальное значение'}
-                  key={'max'}
+                  title={'Максимальное значение элемента'}
+                  keyI={'max'}
                   value={stateApp.max}
                   onChange={handleChange('max')}
                 />
@@ -113,43 +112,52 @@ export const Application: React.FunctionComponent<Props> = observer(
             </Col>
             <Col md={6}>
               <List
-                list={storeClass.sortedArray}
-                title={'Сортированный массив случайных значений'}
+                list={storeClass.sortedArray.parities}
+                title={`Сортированный массив, ${storeClass.sortedArray.time.toFixed(3)} миллисекунд`}
                 className={'right-box'}
               />
             </Col>
           </Row>
         </Container>
         <Container className='bg-light border mg-5'>
-          <h4 className='text-center text-md-right'>Количество пар</h4>
+          <h4 className='text-center text-md-right'>Результаты</h4>
           <Row>
             <Col md={6}>
               <Results type='inline'>
                 <li>
-                  <h6>Линейный метод: {storeClass.resultLine.parities} пары</h6>
-                  <h6>Время: {storeClass.resultLine.time} миллисекунд</h6>
-                  <pre>
-                    {`
-const lineParity = (arr: number[]) => {
-  let result = 0;
-  for (let i = 0; i < arr.length; i++) {
-    result = result + arr.slice(i + 1).filter((e) => arr[i] === e).length;
-  }
-  return result;
-};
-                  `}
-                  </pre>
+                  <h6>Линейный метод: {storeClass.resultLine.parities} пар(ы)</h6>
+                  <h6>Время: {storeClass.resultLine.time.toFixed(3)} миллисекунд</h6>
                 </li>
-                <li>Consectetur adipiscing elit</li>
-                <li>Integer molestie lorem at massa</li>
+                <hr />
+                <li>
+                  <h6>Метод Two: {storeClass.resultLineTwo.parities} пар(ы)</h6>
+                  <h6>Время: {storeClass.resultLineTwo.time.toFixed(3)} миллисекунд</h6>
+                  <h6>Быстрее в  {Math.trunc( storeClass.resultLine.time / storeClass.resultLineTwo.time )} раз(а)</h6>
+                </li>
+                <hr />
               </Results>
             </Col>
             <Col md={6}>
-              <List
-                list={storeClass.sortedArray}
-                title={'Сортированный массив случайных значений'}
-                className={'right-box'}
-              />
+              <Results type='inline'>
+                <li>
+                  <h6>Линейный метод: {storeClass.resultLineSorted.parities} пар(ы)</h6>
+                  <h6>Время: {storeClass.resultLineSorted.time.toFixed(3)} миллисекунд</h6>
+                </li>
+                <hr />
+                <li>
+                  <h6>Метод Two: {storeClass.resultLineTwoSorted.parities} пар(ы)</h6>
+                  <h6>Время: {storeClass.resultLineTwoSorted.time.toFixed(3)} миллисекунд</h6>
+                  <h6>Быстрее в  { storeClass.efficiencyRatioSortedOneByTwo} раз(а)</h6>
+
+                </li>
+                <hr />
+                <li>
+                  <h6>Метод Three: {storeClass.resultLineThreeSorted.parities} пар(ы)</h6>
+                  <h6>Время: {storeClass.resultLineThreeSorted.time.toFixed(3)} миллисекунд</h6>
+                  <h6>Быстрее в  { storeClass.efficiencyRatioSortedOneByThree} раз(а)</h6>
+
+                </li>
+              </Results>
             </Col>
           </Row>
         </Container>
