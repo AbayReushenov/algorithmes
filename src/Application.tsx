@@ -5,6 +5,9 @@ import { Store, storeClass } from './Store/Store';
 import _ from 'lodash';
 import { List } from './components/List/List';
 import { InputForm } from './components/InputForm/InputForm';
+import { CardLine } from './components/Cards/CardLine';
+import { CardTwo } from './components/Cards/CardTwo';
+import { CardThree } from './components/Cards/CardThree';
 
 interface Props {
   state: Store;
@@ -74,7 +77,6 @@ export const Application: React.FunctionComponent<Props> = observer(
                   title={'Количество элементов массива'}
                   keyI={'lenArray'}
                   value={stateApp.lenArray}
-                  min={2}
                   onChange={handleChange('lenArray')}
                 />
               </Col>
@@ -113,7 +115,9 @@ export const Application: React.FunctionComponent<Props> = observer(
             <Col md={6}>
               <List
                 list={storeClass.sortedArray.parities}
-                title={`Сортированный массив, ${storeClass.sortedArray.time.toFixed(3)} миллисекунд`}
+                title={`Сортированный массив, ${storeClass.sortedArray.time.toFixed(
+                  3
+                )} миллисекунд`}
                 className={'right-box'}
               />
             </Col>
@@ -125,14 +129,23 @@ export const Application: React.FunctionComponent<Props> = observer(
             <Col md={6}>
               <Results type='inline'>
                 <li>
-                  <h6>Линейный метод: {storeClass.resultLine.parities} пар(ы)</h6>
-                  <h6>Время: {storeClass.resultLine.time.toFixed(3)} миллисекунд</h6>
+                  <h6>
+                    Линейный метод: {storeClass.resultLine.parities} пар(ы)
+                  </h6>
+                  <h6>
+                    Время: {storeClass.resultLine.time.toFixed(3)} миллисекунд
+                  </h6>
                 </li>
                 <hr />
                 <li>
                   <h6>Метод Two: {storeClass.resultLineTwo.parities} пар(ы)</h6>
-                  <h6>Время: {storeClass.resultLineTwo.time.toFixed(3)} миллисекунд</h6>
-                  <h6>Быстрее в  {Math.trunc( storeClass.resultLine.time / storeClass.resultLineTwo.time )} раз(а)</h6>
+                  <h6>
+                    Время: {storeClass.resultLineTwo.time.toFixed(3)}{' '}
+                    миллисекунд
+                  </h6>
+                  <h6>
+                    Быстрее в {storeClass.efficiencyRatioTargetArray} раз(а)
+                  </h6>
                 </li>
                 <hr />
               </Results>
@@ -140,24 +153,56 @@ export const Application: React.FunctionComponent<Props> = observer(
             <Col md={6}>
               <Results type='inline'>
                 <li>
-                  <h6>Линейный метод: {storeClass.resultLineSorted.parities} пар(ы)</h6>
-                  <h6>Время: {storeClass.resultLineSorted.time.toFixed(3)} миллисекунд</h6>
+                  <h6>
+                    Линейный метод: {storeClass.resultLineSorted.parities}{' '}
+                    пар(ы)
+                  </h6>
+                  <h6>
+                    Время: {storeClass.resultLineSorted.time.toFixed(3)}{' '}
+                    миллисекунд
+                  </h6>
                 </li>
                 <hr />
                 <li>
-                  <h6>Метод Two: {storeClass.resultLineTwoSorted.parities} пар(ы)</h6>
-                  <h6>Время: {storeClass.resultLineTwoSorted.time.toFixed(3)} миллисекунд</h6>
-                  <h6>Быстрее в  { storeClass.efficiencyRatioSortedOneByTwo} раз(а)</h6>
-
+                  <h6>
+                    Метод Two: {storeClass.resultLineTwoSorted.parities} пар(ы)
+                  </h6>
+                  <h6>
+                    Время: {storeClass.resultLineTwoSorted.time.toFixed(3)}{' '}
+                    миллисекунд
+                  </h6>
+                  <h6>
+                    Быстрее в {storeClass.efficiencyRatioSortedOneByTwo} раз(а)
+                  </h6>
                 </li>
                 <hr />
                 <li>
-                  <h6>Метод Three: {storeClass.resultLineThreeSorted.parities} пар(ы)</h6>
-                  <h6>Время: {storeClass.resultLineThreeSorted.time.toFixed(3)} миллисекунд</h6>
-                  <h6>Быстрее в  { storeClass.efficiencyRatioSortedOneByThree} раз(а)</h6>
-
+                  <h6>
+                    Метод Three: {storeClass.resultLineThreeSorted.parities}{' '}
+                    пар(ы)
+                  </h6>
+                  <h6>
+                    Время: {storeClass.resultLineThreeSorted.time.toFixed(3)}{' '}
+                    миллисекунд
+                  </h6>
+                  <h6>
+                    Быстрее в {storeClass.efficiencyRatioSortedOneByThree}{' '}
+                    раз(а)
+                  </h6>
                 </li>
               </Results>
+            </Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col md={4}>
+              <CardLine />
+            </Col>
+            <Col md={4}>
+              <CardTwo />
+            </Col>
+            <Col md={4}>
+              <CardThree />
             </Col>
           </Row>
         </Container>

@@ -1,26 +1,23 @@
 import React, { ChangeEvent } from 'react';
 import { FormGroup, Input, Label } from 'reactstrap';
+import { pattern } from '../common/helpers/pattern';
+import { placeholder } from '../common/helpers/placeholder';
+import { Precision } from '../common/helpers/Precision';
 
 interface Props {
   title: string;
   keyI: string;
   value: number;
   onChange:  (event: ChangeEvent<HTMLInputElement>) => void;
-  min?: number;
-  max?: number;
-  step?: number;
-  placeholder?: string;
+  precision?: Precision;
 }
 
 export const InputForm: React.FunctionComponent<Props> = ({
   title,
   keyI,
   value,
+  precision = Precision.ZERO,
   onChange,
-  min= 0,
-  max = 100000,
-  step = 1,
-  placeholder = 'Введите данные',
 }) => {
   return (
     <FormGroup>
@@ -28,13 +25,10 @@ export const InputForm: React.FunctionComponent<Props> = ({
       <Input
         id={keyI}
         name={keyI}
-        placeholder={placeholder}
-        type='number'
         value={value}
+        placeholder={placeholder(precision)}
+        pattern={pattern(precision)}
         onChange={onChange}
-        min={min}
-        max={max}
-        step={step}
       />
     </FormGroup>
   );
